@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Local Mayor",
+        "id": 0,
+        "role": "You support achieving the targets and would like to see them exceeded. You however feel that this should not be enforced by the government, and that people should benefit the most from the energy projects",
+        "success": "Meeting the targets efficiently and with minimum backlash. You prefer a combination of wind and solar energy to achieve the goals. You also would like to reduce the amount needed by encouraging energy savings",
+        "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM9WHox3-6iANuPfgZ57b27mcrStLmb4otJIA9EYng4AQpYPtQskwpvAZ_faa3RnrIbe8&usqp=CAU"
+    },
+    {
+        "name": "Local Farmer",
+        "id": 0,
+        "role": "You have two barns, a 10 hectare farm and 100 cows. Your life depends on the money you make from products you sell. To meet the targets you will definitely need to share resources with other farmers.",
+        "success": "Making connections and find cost-efficient solutions to adopt clean energy without significantly reducing agricultural production.",
+        "image_url": "https://www.pngrepo.com/png/240410/180/farmer.png"
+    },
+    {
+        "name": "Member of the Local Energy Cooperative",
+        "id": 1,
+        "role": "You are really passionate about clean energy and have developed specific expertise in dealing with legal and technical challenges of installing rooftop solar panels.",
+        "success": "Knowing other actors, finding potential projects and new opportunities that you can contribute to. The more people know about you the more resources you can secure.",
+        "image_url": "https://www.shareicon.net/data/512x512/2016/09/01/822711_user_512x512.png"
+    },
+    {
+        "name": "Energy Network Providers",
+        "id": 2,
+        "role": "You provide energy network infrastructures and influence decisions on whether certain solutions can be implemented based on the network capacity or not. ",
+        "success": "Finding out about future plans as early as possible so you would have a good knowledge of future demand and areas to invest.",
+        "image_url": "https://www.shareicon.net/data/512x512/2016/09/15/829453_user_512x512.png"
+    }
+]

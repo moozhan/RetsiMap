@@ -1,0 +1,34 @@
+{
+    "layers": [
+        {
+            "id": 0,
+            "title": "Enschede Boundary",
+            "endpoint": "Boundary"
+        },
+        {
+            "id": 1,
+            "title": "Enschede Neighbourhoods",
+            "endpoint": "Neighbourhood"
+        },
+        {
+            "id": 2,
+            "title": "Enschede Landuse",
+            "endpoint": "Landuse"
+        },
+        {
+            "id": 3,
+            "title": "Enschede Rooftops",
+            "endpoint": "Rooftop"
+        },
+        {
+            "id": 4,
+            "title": "Suitable Areas for Solar Panels",
+            "endpoint": "Suitablesolar"
+        },
+        {
+            "id": 5,
+            "title": "Suitable Areas for Wind Turbines",
+            "endpoint": "Suitablewind"
+        }
+    ]
+}
