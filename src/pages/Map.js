@@ -13,6 +13,7 @@ import cattail from '../components/images/cattail.png';
 import reed from '../components/images/reed.png';
 import { polygon, distance, buffer, point, featureCollection, nearestPoint } from '@turf/turf'
 import {features} from "../data/Engbertsdijkvenen.json";
+import Plot from 'react-plotly.js';
 
 
 function Map(){
@@ -20,6 +21,8 @@ function Map(){
     const [mazeAmount, setmazeAmount] = useState(0);
     const [cattailAmount, setcattailAmount] = useState(0);
     const [reedAmount, setreedAmount] = useState(0);
+    // const [allEnergy, setallEnergy] = useState(0);
+    // const [allCo2, setallCo2] = useState(0);
 
     //=====================Turf Stuff ====================//
     // let polygons = features[0].geometry[1].coordinates;
@@ -233,8 +236,10 @@ function Map(){
                                     document.getElementById("CoreductionReed").innerHTML = reedco;
                                 }
                                 var totalenergyproduction = reedpro + cattailpro + maizepro + conthuspro;
+                                // setallEnergy(totalenergyproduction);
                                 document.getElementById("totalenergy").innerHTML = totalenergyproduction;
                                 var totalemissionsaved = reedco + cattailco + maizeco + conthusco;
+                                // setallCo2(totalemissionsaved);
                                 document.getElementById("totalemissionsaved").innerHTML = totalemissionsaved;
 
                         });
@@ -260,7 +265,7 @@ function Map(){
                             cropMiscanthus.eachLayer(function(layer) {
                                 if (!!layer.toGeoJSON) {
                                   map.removeLayer(layer);
-                                  
+
                                 }
                               });
                         };
@@ -285,6 +290,7 @@ function Map(){
                                 }
                               });
                         };
+
                         //=========== Button Events ==================//
 
                         document
@@ -363,6 +369,21 @@ function Map(){
                         <p>Total Co2 Emission Saving: <span id="totalemissionsaved"></span></p>
                     </div>
                 </div>
+                {/* <div className="detailsofgraph">
+                <Plot
+                    data={[
+                    {
+                        x: ["energy Production", "Co2 Reduction"],
+                        y: [allEnergy, allCo2],
+                        type: 'scatter',
+                        mode: 'markers',
+                        marker: {color: 'red'},
+                    },
+                    {type: 'bar', x: ["energy Production", "Co2 Reduction"], y: [allEnergy, allCo2]},
+                    ]}
+                    layout={ {width: 350, height: 300} }
+                />
+                </div> */}
             </section>
         </Layout>
     );

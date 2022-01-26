@@ -239,6 +239,19 @@ section .mainPage {
   padding-left: 1.5em;
 }
 
+.detailsofgraph {
+  width: 400px;
+  height: 320px;
+  background-color: white;
+  opacity: 0.9;
+  border: 1px solid black;
+  z-index: 1000;
+  margin-top: -20.5em;
+  margin-left: 85em;
+  position: absolute;
+  padding-left: 1.5em;
+}
+
 .logosolarfarm {
   height: 60px;
   width: 60px;
@@ -325,4 +338,15 @@ section .mainPage {
 }
 .hiddeninput {
   display: none;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
 }
