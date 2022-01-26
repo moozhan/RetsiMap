@@ -263,9 +263,10 @@ section .mainPage {
 .navbarcontrol {
   width: 100%;
   height: 100px;
-  border: 1px solid darkgray;
+  /* border: 1px solid darkgray; */
   display: grid;
   grid-template-columns: repeat(4, auto);
+  column-gap: 1em;
 }
 .holder {
   height: 100%;
@@ -278,8 +279,38 @@ section .mainPage {
   flex: 30%;
   border-right: 1px solid darkgray;
   align-items: center;
+  background-image: url("https://cdn11.bigcommerce.com/s-i7i23daso6/images/stencil/1280x1280/products/12849/17851/Miscanthus_sinensis_Morning_Light_0013588__14547.1623965865.jpg?c=1");
+  background-size: cover;
+}
+.halfmaze {
+  flex: 30%;
+  border-right: 1px solid darkgray;
+  align-items: center;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8xCRtZYfH-1VZpTCuMMGpnwqJiTM1womGqg&usqp=CAU");
+  background-size: cover;
+}
+.halfcattail {
+  flex: 30%;
+  border-right: 1px solid darkgray;
+  align-items: center;
+  background-image: url("https://www.gardeningknowhow.com/wp-content/uploads/2020/11/red-bulrush.jpg");
+  background-size: cover;
+}
+.halfcattail {
+  flex: 30%;
+  border-right: 1px solid darkgray;
+  align-items: center;
+  background-image: url("https://www.gardeningknowhow.com/wp-content/uploads/2020/11/red-bulrush.jpg");
+  background-size: cover;
 }
 
+.halfreed {
+  flex: 30%;
+  border-right: 1px solid darkgray;
+  align-items: center;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEB3kIBoK_y_e3pTvmS3i6L_xs0vlZ9_Bcag&usqp=CAU");
+  background-size: cover;
+}
 .halftwo {
   flex: 70%;
 }

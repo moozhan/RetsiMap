@@ -11,6 +11,8 @@ import miscanthus from '../components/images/Miscanthus.png';
 import maze from '../components/images/maze.png';
 import cattail from '../components/images/cattail.png';
 import reed from '../components/images/reed.png';
+import { polygon, distance, buffer, point, featureCollection, nearestPoint } from '@turf/turf'
+import {features} from "../data/Engbertsdijkvenen.json";
 
 
 function Map(){
@@ -19,6 +21,17 @@ function Map(){
     const [cattailAmount, setcattailAmount] = useState(0);
     const [reedAmount, setreedAmount] = useState(0);
 
+    //=====================Turf Stuff ====================//
+    // let polygons = features[0].geometry[1].coordinates;
+    // console.log(polygons);
+    // var feature = polygon(polygons);
+    // var buffering = buffer(feature, 50, { units: 'meters' });
+
+
+
+    // useEffect(() => {
+    //     console.log(mazeAmount);
+    //   });
     //=================Styles====================//
     var Miscanthus = {            
         fillColor: 'white',
@@ -53,13 +66,13 @@ function Map(){
         fillOpacity: 0.5
     }
 
+    
     return(
         <Layout>
             <section className="centerpage">
                 <div className="navbarcontrol">
                     <div className="holder">
                         <div className="half">
-                            <img src={miscanthus} className="controlimage" alt=""></img>
                         </div>
                         <div className="halftwo">
                             <button id="drawMiscanthus" className="buttonscontrol">Plant Some Miscanthus</button>
@@ -67,8 +80,7 @@ function Map(){
                         </div>
                     </div>
                     <div className="holder">
-                        <div className="half">
-                            <img src={maze} className="controlimage" alt=""></img>
+                        <div className="halfmaze">
                         </div>
                         <div className="halftwo">
                             <button id="drawMaize" className="buttonscontrol">Plant Some Maize</button>
@@ -76,8 +88,7 @@ function Map(){
                         </div>
                     </div>                    
                     <div className="holder">
-                        <div className="half">
-                            <img src={cattail} className="controlimage" alt=""></img>
+                        <div className="halfcattail">
                         </div>
                         <div className="halftwo">
                             <button id="drawCattail" className="buttonscontrol">Plant Some Cattail</button>
@@ -85,8 +96,7 @@ function Map(){
                         </div>
                     </div>                 
                     <div className="holder">
-                        <div className="half">
-                            <img src={reed} className="controlimage" alt=""></img>
+                        <div className="halfreed">
                         </div>
                         <div className="halftwo">
                             <button id="drawReed" className="buttonscontrol">Plant Some Reed</button>
@@ -152,7 +162,23 @@ function Map(){
                             polygonDrawerFour.setOptions({shapeOptions: Reed});
 
                     //================= Draw Function Assigning Colors ===============//
-                    
+                    //set the variable for area
+                    let misconthusarea = [];
+                    let maizearea = [];
+                    let cattailarea = [];
+                    let reedarea = [];
+                    let totalmisconthusarea = 0;
+                    let totalmaizearea = 0;
+                    let totalcattailarea = 0;
+                    let totalreedarea = 0;
+                    let reedpro = 0;
+                    let cattailpro = 0; 
+                    let maizepro = 0;
+                    let conthuspro = 0;
+                    let reedco = 0;
+                    let cattailco = 0; 
+                    let maizeco = 0;
+                    let conthusco = 0;
                         map.on('draw:created', function (e) {
                                 var layer = e.layer;
                                 layer.addTo(map);
@@ -160,17 +186,60 @@ function Map(){
                                 var color = layer.options.fillColor;
                                 if (color === "white") {
                                     layer.addTo(cropMiscanthus);
+                                    misconthusarea.push(area);
+                                    // console.log(misconthusarea);
+                                    totalmisconthusarea = totalmisconthusarea + area;
+                                    // console.log(totalmisconthusarea);
+                                    document.getElementById("areaofMiscantus").innerHTML = totalmisconthusarea/10000;
+                                    conthuspro = Math.round(246.15 * totalmisconthusarea/10000);
+                                    document.getElementById("totalenergymiscantus").innerHTML = conthuspro;
+                                    conthusco = Math.round(14.85 * totalmisconthusarea/10000);
+                                    document.getElementById("Coreductionmuscantus").innerHTML = conthusco;
+
                                 } else if (color === "red") {
                                     layer.addTo(cropMaize);
-                                    //setmazeAmount(mazeAmount => mazeAmount + area);
+                                    maizearea.push(area);
+                                    // console.log(maizearea);
+                                    totalmaizearea = totalmaizearea + area;
+                                    // console.log(totalmaizearea);
+                                    document.getElementById("areaofMaize").innerHTML = totalmaizearea/10000;
+                                    maizepro = Math.round(520.38 * totalmaizearea/10000);
+                                    document.getElementById("totalenergymaize").innerHTML = maizepro;
+                                    maizeco = Math.round(29.453 * totalmaizearea/10000);
+                                    document.getElementById("Coreductionmaize").innerHTML = maizeco;
+
                                 } else if (color === "blue") {
                                     layer.addTo(cropCattail);
-                                    //setcattailAmount(cattailAmount => cattailAmount + area);
+                                    cattailarea.push(area);
+                                    // console.log(cattailarea);
+                                    totalcattailarea = totalcattailarea + area;
+                                    // console.log(totalcattailarea);
+                                    document.getElementById("areaofCattail").innerHTML = totalcattailarea/10000;
+                                    cattailpro = Math.round(128.32 * totalcattailarea/10000);
+                                    document.getElementById("totalenergyCattail").innerHTML = cattailpro;
+                                    cattailco = Math.round(7.263 * totalcattailarea/10000);
+                                    document.getElementById("CoreductionCattail").innerHTML = cattailco;
+
                                 } else {
                                     layer.addTo(cropReed);
-                                    //setreedAmount(reedAmount => reedAmount + area);
+                                    reedarea.push(area);
+                                    // console.log(reedarea);
+                                    totalreedarea = totalreedarea + area;
+                                    // console.log(totalreedarea);
+                                    document.getElementById("areaofReed").innerHTML = totalreedarea/10000;
+                                    reedpro = Math.round(262.46 * totalreedarea/10000);
+                                    document.getElementById("totalenergyReed").innerHTML = reedpro;
+                                    reedco = Math.round(14.855 * totalreedarea/10000);
+                                    document.getElementById("CoreductionReed").innerHTML = reedco;
                                 }
+                                var totalenergyproduction = reedpro + cattailpro + maizepro + conthuspro;
+                                document.getElementById("totalenergy").innerHTML = totalenergyproduction;
+                                var totalemissionsaved = reedco + cattailco + maizeco + conthusco;
+                                document.getElementById("totalemissionsaved").innerHTML = totalemissionsaved;
+
                         });
+
+
                         //=========== Enabling All Drawings =========================//
 
                         const drawMiscanthus = e => {
@@ -191,6 +260,7 @@ function Map(){
                             cropMiscanthus.eachLayer(function(layer) {
                                 if (!!layer.toGeoJSON) {
                                   map.removeLayer(layer);
+                                  
                                 }
                               });
                         };
@@ -254,27 +324,43 @@ function Map(){
                     <div>
                     <div className="icons">
                         <img src={miscanthus} className="logosolarfarm" alt=""></img>
-                        <p>{miscanthusAmount} ha</p>
+                        <p id="areaofMiscantus"> 0 </p>
+                        <p id="totalenergymiscantus"> 0 GJ</p>
+                        <p id="Coreductionmuscantus"> 0 t</p>
+
                     </div>
                     <div className="icons">
                         <img src={maze} className="logosolarfarm" alt=""></img>
-                        <p>{mazeAmount} ha</p>
+                        <p id="areaofMaize"> 0 ha</p>
+                        <p id="totalenergymaize"> 0 GJ</p>
+                        <p id="Coreductionmaize"> 0 t</p>
+
                     </div>
                     <div className="icons">
                         <img src={cattail} className="logosolarfarm" alt=""></img>
-                        <p>{cattailAmount} ha</p>
+                        <p id="areaofCattail">0 ha</p>
+                        <p id="totalenergyCattail"> 0 GJ</p>
+                        <p id="CoreductionCattail"> 0 t</p>
+
                     </div>
                     <div className="icons">
                         <img src={reed} className="logosolarfarm" alt=""></img>
-                        <p>{reedAmount} ha</p>
+                        <p id="areaofReed"> 0 ha</p>
+                        <p id="totalenergyReed"> 0 GJ</p>
+                        <p id="CoreductionReed"> 0 t</p>
                     </div>
+                    <br/>
+                    <br/>
+                    <br/>
+
                     </div>
+                    
                     <div className="break"></div>
                     <div>
-                        <p><span>Total Energy Produced:</span></p>
+                        <p>Total Energy Produced: <span id="totalenergy"></span></p>
                     </div>
                     <div>
-                        <p><span>Total Co2 Emission Saving:</span></p>
+                        <p>Total Co2 Emission Saving: <span id="totalemissionsaved"></span></p>
                     </div>
                 </div>
             </section>
