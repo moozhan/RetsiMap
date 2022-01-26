@@ -233,9 +233,10 @@ section .mainPage {
   opacity: 0.9;
   border: 1px solid black;
   z-index: 1000;
-  margin-top: -20em;
-  margin-left: 1em;
+  margin-top: -25em;
+  margin-left: 0.5em;
   position: absolute;
+  padding-left: 1.5em;
 }
 
 .logosolarfarm {
@@ -249,4 +250,48 @@ section .mainPage {
   margin-right: 0.5em;
   margin-top: 1em;
   margin-left: 1em;
+}
+
+.buttons {
+  display: inline-block;
+}
+.break {
+  width: 150px;
+  height: 150px;
+}
+
+.navbarcontrol {
+  width: 100%;
+  height: 100px;
+  border: 1px solid darkgray;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+}
+.holder {
+  height: 100%;
+  background-color: white;
+  border: 1px dashed darkgray;
+  display: flex;
+}
+
+.half {
+  flex: 30%;
+  border-right: 1px solid darkgray;
+  align-items: center;
+}
+
+.halftwo {
+  flex: 70%;
+}
+
+.controlimage {
+  height: 70px;
+}
+
+.buttonscontrol {
+  width: 100%;
+  height: 50%;
+}
+.hiddeninput {
+  display: none;
 }

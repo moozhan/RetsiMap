@@ -1,85 +1,99 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from '../components/layout/Layout';
 import "./main.css";
-import { MapContainer, TileLayer, LayersControl, FeatureGroup, LayerGroup, MapConsumer} from 'react-leaflet';
-import { EditControl} from "react-leaflet-draw";
+import { MapContainer, TileLayer, LayersControl, LayerGroup, MapConsumer} from 'react-leaflet';
 import "leaflet-draw";
 import 'leaflet/dist/leaflet.css';
 import "leaflet-draw/dist/leaflet.draw.css";
 import L from 'leaflet';
 import Natuura2000 from '../components/mapLayers/Natuura2000';
-import Geoman from "../components/Geoman";
-
+import miscanthus from '../components/images/Miscanthus.png';
+import maze from '../components/images/maze.png';
+import cattail from '../components/images/cattail.png';
+import reed from '../components/images/reed.png';
 
 
 function Map(){
-    const [map, setMap] = useState(null);
-    const [energy, setEnergy] = useState(0);
+    const [miscanthusAmount, setmiscanthusAmount] = useState(0);
+    const [mazeAmount, setmazeAmount] = useState(0);
+    const [cattailAmount, setcattailAmount] = useState(0);
+    const [reedAmount, setreedAmount] = useState(0);
 
-    const style = {
-            fillColor: 'white',
-            weight: 1,
-            opacity: 1,
-            color: 'black',
-            dashArray: '2',
-            fillOpacity: 0.5
-        };
-    //cities.addTo(map);
-    // var baseMaps = {
-    //     "Cities": cities,
-    // }
-    // var overlayMaps = {
-    //     "Cities": cities,
-    //     "Cities": cities
+    //=================Styles====================//
+    var Miscanthus = {            
+        fillColor: 'white',
+        weight: 1,
+        opacity: 1,
+        color: 'black',
+        dashArray: '2',
+        fillOpacity: 0.5
+    }
+    var Maize = {            
+        fillColor: 'red',
+        weight: 1,
+        opacity: 1,
+        color: 'black',
+        dashArray: '2',
+        fillOpacity: 0.5
+    }
+    var Cattail = {            
+        fillColor: 'blue',
+        weight: 1,
+        opacity: 1,
+        color: 'black',
+        dashArray: '2',
+        fillOpacity: 0.5
+    }
+    var Reed = {            
+        fillColor: 'green',
+        weight: 1,
+        opacity: 1,
+        color: 'black',
+        dashArray: '2',
+        fillOpacity: 0.5
+    }
 
-    // };
-    // L.control.layers(baseMaps, overlayMaps).addTo(map);
-
-
-//     const icon = L.icon({
-//         iconSize: [25, 41],
-//         iconAnchor: [10, 41],
-//         popupAnchor: [2, -40],
-//         iconUrl: "https://unpkg.com/leaflet@1.7/dist/images/marker-icon.png",
-//         shadowUrl: "https://unpkg.com/leaflet@1.7/dist/images/marker-shadow.png"
-//       });
-// //===================================================================================
-
-      
-// //============  Map Draw Configurations  ===================================
-// const [mapLayers, setMapLayers] = useState([]);
-
-// const _onCreate = e => {
-//     const {layerType, layer} = e;
-//     if(layerType === "polygon"){
-//         const{_leaflet_id} = layer;
-//         var area = L.GeometryUtil.geodesicArea(layer.getLatLngs()[0]);
-//         setMapLayers(layers => [...layers, {id: _leaflet_id, latLngs: layer.getLatLngs()[0], area: area},]);
-//     };
-//     if(layerType === "marker"){
-//         const{_leaflet_id} = layer;
-//         setMapLayers(layers => [...layers, {id: _leaflet_id, latLngs: layer._latlng, type:"Wind Turbine", area: 0, distance: "5m"},
-//     ]);
-// };
-// };
-// const _onEdited = e => {
-//     const {layers: {_layers}} = e;
-//     Object.values(_layers).map(({_leaflet_id, editing}) => {
-//         setMapLayers( layers => layers.map( l => l.id === _leaflet_id ? {...l, latlngs: { ...editing.latlngs[0]}}: l));
-//     });
-// };
-
-// const _onDeleted = (e) => {
-//     const { layers: {_layers}} = e;
-//     Object.values(_layers).map(({_leaflet_id}) => {
-//         setMapLayers( layers => 
-//             layers.filter( l => l.id !== _leaflet_id));
-//     });
-// };
-//=========================================================
     return(
         <Layout>
             <section className="centerpage">
+                <div className="navbarcontrol">
+                    <div className="holder">
+                        <div className="half">
+                            <img src={miscanthus} className="controlimage" alt=""></img>
+                        </div>
+                        <div className="halftwo">
+                            <button id="drawMiscanthus" className="buttonscontrol">Plant Some Miscanthus</button>
+                            <button id="editMiscanthus" className="buttonscontrol">Remove All Miscanthus</button>
+                        </div>
+                    </div>
+                    <div className="holder">
+                        <div className="half">
+                            <img src={maze} className="controlimage" alt=""></img>
+                        </div>
+                        <div className="halftwo">
+                            <button id="drawMaize" className="buttonscontrol">Plant Some Maize</button>
+                            <button id="editMaize" className="buttonscontrol">Remove All Maize</button>   
+                        </div>
+                    </div>                    
+                    <div className="holder">
+                        <div className="half">
+                            <img src={cattail} className="controlimage" alt=""></img>
+                        </div>
+                        <div className="halftwo">
+                            <button id="drawCattail" className="buttonscontrol">Plant Some Cattail</button>
+                            <button id="editCattail" className="buttonscontrol">Remove All Cattail</button> 
+                        </div>
+                    </div>                 
+                    <div className="holder">
+                        <div className="half">
+                            <img src={reed} className="controlimage" alt=""></img>
+                        </div>
+                        <div className="halftwo">
+                            <button id="drawReed" className="buttonscontrol">Plant Some Reed</button>
+                            <button id="editReed" className="buttonscontrol">Remove All Reed</button> 
+                        </div>
+                    </div>
+                </div>
                 <MapContainer style={{ height: "90vh", width: "100vww" }} center={[52.473351, 6.667982]} zoom={13.5} scrollWheelZoom={true} crs={L.CRS.EPSG3857}>
                     <LayersControl position="topright">
                         <LayersControl.BaseLayer checked name="OpenStreetMap">
@@ -95,144 +109,174 @@ function Map(){
                         </LayerGroup>
                         <MapConsumer>
                         {(map) => {
-                            var plantOne = new L.FeatureGroup();
-                            map.addLayer(plantOne);
+                            //====================== All Feature Groups ===========================
+                            var cropMiscanthus = new L.FeatureGroup();
+                            map.addLayer(cropMiscanthus);
                             var drawControl = new L.Control.Draw({
                               edit: {
-                                featureGroup: plantOne
+                                featureGroup: cropMiscanthus
                               }
                             });
 
-                            var plantTwo = new L.FeatureGroup();
-                            map.addLayer(plantTwo);
+                            var cropMaize = new L.FeatureGroup();
+                            map.addLayer(cropMaize);
                             var drawControlTwo = new L.Control.Draw({
                               edit: {
-                                featureGroup: plantTwo
+                                featureGroup: cropMaize
+                              }
+                            });
+                            var cropCattail = new L.FeatureGroup();
+                            map.addLayer(cropCattail);
+                            var drawControlThree = new L.Control.Draw({
+                              edit: {
+                                featureGroup: cropCattail
                               }
                             });
 
-                            //=============================================
-                            var styleTwo = {            
-                                fillColor: 'white',
-                                weight: 1,
-                                opacity: 1,
-                                color: 'black',
-                                dashArray: '2',
-                                fillOpacity: 0.5
-                            }
-                            // var drawings = L.layerGroup([drawnItems]);
+                            var cropReed = new L.FeatureGroup();
+                            map.addLayer(cropReed);
+                            var drawControlFour = new L.Control.Draw({
+                              edit: {
+                                featureGroup: cropReed
+                              }
+                            });
 
-                            // var overlayMaps = {
-                            //     "Cities": drawings
-                            // };
-                            // L.control.layers(overlayMaps).addTo(map);
+                    // =============  create a polygon  =============================//
+                            var polygonDrawer = new L.Draw.Polygon(map, drawControl.options.polygon);
+                            polygonDrawer.setOptions({shapeOptions: Miscanthus});
+                            var polygonDrawerTwo = new L.Draw.Polygon(map, drawControlTwo.options.polygon);
+                            polygonDrawerTwo.setOptions({shapeOptions: Maize});
+                            var polygonDrawerThree = new L.Draw.Polygon(map, drawControlThree.options.polygon);
+                            polygonDrawerThree.setOptions({shapeOptions: Cattail});
+                            var polygonDrawerFour = new L.Draw.Polygon(map, drawControlFour.options.polygon);
+                            polygonDrawerFour.setOptions({shapeOptions: Reed});
 
-
-                            
-                            // document
-                            //   .getElementById("drawPolyline")
-                            //   .addEventListener("click", e => drawPolyline(e));
-                            
-                            // document
-                            //   .getElementById("cancelDraw")
-                            //   .addEventListener("click", e => cancelDraw(e));
-                            
-                            // let polylineDrawHandler;
-                            // const drawPolyline = e => {
-                            //   polylineDrawHandler = new L.Draw.Polyline(map, drawControl.options.polyline);
-                            //   polylineDrawHandler.enable();
-                            //   setEnergy(2);
-                            //   console.log(energy);
-                            // };
-                            
-                            // const cancelDraw = e => polylineDrawHandler.disable();
-                            // map.on(L.Draw.Event.CREATED, e => {
-                            //     const layer = e.layer;
-                            //     drawnItems.addLayer(layer);
-                            // });
-
-                        // //second
-                        // var secondItems = new L.FeatureGroup();
-                        // map.addLayer(secondItems);
-                        // var drawControl = new L.Control.Draw({
-                        //   edit: {
-                        //     featureGroup: secondItems
-                        //   }
-                        // });
-                        
-                        // document
-                        //   .getElementById("secondtest")
-                        //   .addEventListener("click", e => drawPolylinetwo(e));
-                        
-                        // document
-                        //   .getElementById("cancelsecond")
-                        //   .addEventListener("click", e => cancelDrawtwo(e));
-                        
-                        // let polylineDrawHandlertwo;
-                        // const drawPolylinetwo = e => {
-                        //     polylineDrawHandlertwo = new L.Draw.Polyline(map, drawControl.options.polyline);
-                        //     polylineDrawHandlertwo.enable();
-                        //   setEnergy(2);
-                        //   console.log(energy);
-                        // };
-                        
-                        // const cancelDrawtwo = e => polylineDrawHandlertwo.disable();
-                        // map.on(L.Draw.Event.CREATED, e => {
-                        //     const layer = e.layer;
-                        //     secondItems.addLayer(layer);
-                        // });
-
-
-                        var polygonDrawer = new L.Draw.Polygon(map, drawControl.options.polygon);
+                    //================= Draw Function Assigning Colors ===============//
+                    
                         map.on('draw:created', function (e) {
-                            var type = e.layerType,
-                                layer = e.layer;
-                            layer.addTo(map);
+                                var layer = e.layer;
+                                layer.addTo(map);
+                                var area = Math.round(L.GeometryUtil.geodesicArea(layer.getLatLngs()[0]));
+                                var color = layer.options.fillColor;
+                                if (color === "white") {
+                                    layer.addTo(cropMiscanthus);
+                                } else if (color === "red") {
+                                    layer.addTo(cropMaize);
+                                    //setmazeAmount(mazeAmount => mazeAmount + area);
+                                } else if (color === "blue") {
+                                    layer.addTo(cropCattail);
+                                    //setcattailAmount(cattailAmount => cattailAmount + area);
+                                } else {
+                                    layer.addTo(cropReed);
+                                    //setreedAmount(reedAmount => reedAmount + area);
+                                }
                         });
-                        const drawPolyline = e => {
+                        //=========== Enabling All Drawings =========================//
+
+                        const drawMiscanthus = e => {
                           polygonDrawer.enable();
-                          setEnergy(2);
-                          console.log(energy);
                         };
-                        document
-                            .getElementById("drawPolyline")
-                            .addEventListener("click", e => drawPolyline(e));
-
-                        //=============================================================================
-                        var polygonDrawerTwo = new L.Draw.Polygon(map, drawControlTwo.options.polygon);
-                        polygonDrawerTwo.setOptions({shapeOptions: styleTwo});
-                        map.on('draw:created', function (e) {
-                            var type = e.layerType,
-                                layer = e.layer;
-                            layer.addTo(map);
-                        });
-                        const drawPolylineTwo = e => {
+                        const drawMaize = e => {
                             polygonDrawerTwo.enable();
-                          setEnergy(2);
-                          console.log(energy);
                         };
+                        const drawCattail = e => {
+                            polygonDrawerThree.enable();
+                        };
+                        const drawReed = e => {
+                            polygonDrawerFour.enable();
+                        };
+
+                        //=========== Deleting the feature groups ==================//
+                        const editMiscanthus  = e => {
+                            cropMiscanthus.eachLayer(function(layer) {
+                                if (!!layer.toGeoJSON) {
+                                  map.removeLayer(layer);
+                                }
+                              });
+                        };
+                        const editMaize = e => {
+                            cropMaize.eachLayer(function(layer) {
+                                if (!!layer.toGeoJSON) {
+                                  map.removeLayer(layer);
+                                }
+                              });
+                        };
+                        const editCattail = e => {
+                            cropCattail.eachLayer(function(layer) {
+                                if (!!layer.toGeoJSON) {
+                                  map.removeLayer(layer);
+                                }
+                              });
+                        };
+                        const editReed = e => {
+                            cropReed.eachLayer(function(layer) {
+                                if (!!layer.toGeoJSON) {
+                                  map.removeLayer(layer);
+                                }
+                              });
+                        };
+                        //=========== Button Events ==================//
+
                         document
-                            .getElementById("drawPolylineTwo")
-                            .addEventListener("click", e => drawPolylineTwo(e));
-
-
-
-
+                            .getElementById("drawMiscanthus")
+                            .addEventListener("click", e => drawMiscanthus(e));
+                        document
+                            .getElementById("editMiscanthus")
+                            .addEventListener("click", e => editMiscanthus(e));
+                        document
+                            .getElementById("drawMaize")
+                            .addEventListener("click", e => drawMaize(e));
+                        document
+                            .getElementById("editMaize")
+                            .addEventListener("click", e => editMaize(e));
+                        document
+                            .getElementById("drawCattail")
+                            .addEventListener("click", e => drawCattail(e));
+                        document
+                            .getElementById("editCattail")
+                            .addEventListener("click", e => editCattail(e));
+                        document
+                            .getElementById("drawReed")
+                            .addEventListener("click", e => drawReed(e));
+                        document
+                            .getElementById("editReed")
+                            .addEventListener("click", e => editReed(e));
 
                         return null;
                         }}
                         </MapConsumer>
                     </LayersControl>
-                    {/* <Geoman/> */}
                 </MapContainer>     
 
             </section>
             <section>
-            <button id="drawPolyline">Draw Plant 1</button>
-            <button id="drawPolylineTwo">Draw Plant 2</button>
-
-            {/* <button id="secondtest">Click me Draw</button>
-            <button id="cancelsecond">Click me Draw</button> */}
+                <div className="detailsofmap">
+                    <div>
+                    <div className="icons">
+                        <img src={miscanthus} className="logosolarfarm" alt=""></img>
+                        <p>{miscanthusAmount} ha</p>
+                    </div>
+                    <div className="icons">
+                        <img src={maze} className="logosolarfarm" alt=""></img>
+                        <p>{mazeAmount} ha</p>
+                    </div>
+                    <div className="icons">
+                        <img src={cattail} className="logosolarfarm" alt=""></img>
+                        <p>{cattailAmount} ha</p>
+                    </div>
+                    <div className="icons">
+                        <img src={reed} className="logosolarfarm" alt=""></img>
+                        <p>{reedAmount} ha</p>
+                    </div>
+                    </div>
+                    <div className="break"></div>
+                    <div>
+                        <p><span>Total Energy Produced:</span></p>
+                    </div>
+                    <div>
+                        <p><span>Total Co2 Emission Saving:</span></p>
+                    </div>
+                </div>
             </section>
         </Layout>
     );
